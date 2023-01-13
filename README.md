@@ -10,11 +10,11 @@ Lem is a software that allows user to simply pack an application in a user level
 
 LemonPack provides the lem command that you can use with all the command below :
 
-| Command | Args |
-| ------------- | ------------- |
-| install / -i | Path to a lem file |
-| list / -l | - |
-| uninstall / remove / -u / -r | lem package ID (can be listed in list) |
+| Command | Args | Effect | 
+| ------------- | ------------- | ------------- |
+| install / -i | Path to a lem file | Install a lem package |
+| list / -l | - | List all installed packages |
+| uninstall / remove / -u / -r | lem package ID (can be listed in list) | Uninstall a lem package |
 
 ## How to build a lem package ?
 
