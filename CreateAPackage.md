@@ -36,4 +36,8 @@
 
 Compress your folder in tar.xz and rename the tar.xz in lem
 
+**Most of the files are provided in the example folder**
+
 Enjoy your new app !
+
+
