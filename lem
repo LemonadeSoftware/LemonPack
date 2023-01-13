@@ -1,5 +1,7 @@
 #!/bin/bash
 
+lemver=0.1.2
+
 #Lemonpack file structure :
 # Appname/                 |Dir
 #    App/                  |Dir
@@ -18,10 +20,34 @@
 
 #Get args
 
+echo ""
+echo "Lem version $lemver"
+
+if [ ! $1 ]
+then
+echo "Unknown command, please use 'lem -h' or 'lem help' for help"
+exit 0
+fi
+
+
 Func=$1
 Softwareloca=$2
 Software=`basename $Softwareloca .lem`
 FileFormat=${Softwareloca#*.}
+
+
+#help
+if [ $Func = "-h" ] || [ $Func = "help" ]
+then
+echo "Lem help :"
+echo ""
+echo "To install a software use 'lem -i package.lem' or 'lem install package.lem'"
+echo ""
+echo "To list your installed software use 'lem -l' or 'lem list'"
+echo ""
+echo "To uninstall a software use 'lem -u software-id' or 'lem -r software-id' or 'lem uninstall software-id' or 'lem remove software-id'"
+exit 0
+fi
 
 #Verify args
 
@@ -43,22 +69,28 @@ echo ""
 if [ $Func = "-i" ] || [ $Func = "install" ]
 then
 
+if [ ! $2 ]
+then
+echo "Please locate the package you want to install"
+exit 0
+fi
+
 #Verify file format
 
 if [[ $FileFormat != "lem" ]]
 then
 
 echo "ERROR : Not a lemonade package format (.lem)"
-exit 28
+exit 0
 
 fi
 
 #preparing software box
 
-mkdir ~/.lemonade/
-mkdir ~/.lemonade/workdir/
-mkdir ~/.lemonade/apps/
-mkdir ~/.lemonade/ISL
+mkdir -p ~/.lemonade/
+mkdir -p ~/.lemonade/workdir/
+mkdir -p ~/.lemonade/apps/
+mkdir -p ~/.lemonade/ISL
 
 #installing software 
 
@@ -67,14 +99,21 @@ cp $Softwareloca ~/.lemonade/workdir/$Software.tar.xz
 cd ~/.lemonade/workdir/
 tar xf $Software.tar.xz
 
+#Getting infos about package
+AppId=$(cat ~/.lemonade/workdir/$Software/Assets/Info/packageid.txt)
+AppEnv=$(cat ~/.lemonade/workdir/$Software/Assets/Info/env.txt)
+AppName=$(cat ~/.lemonade/workdir/$Software/Assets/Info/appname.txt)
+AppType=$(cat ~/.lemonade/workdir/$Software/Assets/Info/type.txt)
+AppComment=$(cat ~/.lemonade/workdir/$Software/Assets/Info/soft-info.txt)
+AppStartupWMClass=$(cat ~/.lemonade/workdir/$Software/Assets/Info/startupvmclass.txt)
+Perms=$(cat ~/.lemonade/workdir/$Software/Assets/Info/permission.txt)
+Perms="Not defined"
+
 #Permission survey
 echo ""
 echo ""
 echo ""
 echo ""
-
-
-Perms=$(cat ~/.lemonade/workdir/$Software/Assets/Info/permission.txt)
 
 echo "The following application require to disable the following protections :"
 echo ""
@@ -110,25 +149,21 @@ fi
 confirmperms
 
 
+
 #fin de confirmation
 
 echo "Extracting Files..."
 #mkdir ~/.lemonade/apps/$Software
-cp -r $Software ~/.lemonade/apps/$Software
+cp -r $Software ~/.lemonade/apps/$AppId
 echo "Copying Files..."
-touch ~/.lemonade/ISL/$Software
+touch ~/.lemonade/ISL/$AppId
 echo "Registering App..."
-echo "DO NOT DELET THIS FILE MANUALLY">> ~/.lemonade/ISL/$Software
+echo "DO NOT DELET THIS FILE MANUALLY">> ~/.lemonade/ISL/$AppId
 echo "Registering App Entry..."
 
 
 touch ~/.local/share/applications/$Software.desktop
 
-
-AppName=$(cat ~/.lemonade/apps/$Software/Assets/Info/appname.txt)
-AppType=$(cat ~/.lemonade/apps/$Software/Assets/Info/type.txt)
-AppComment=$(cat ~/.lemonade/apps/$Software/Assets/Info/soft-info.txt)
-AppStartupWMClass=$(cat ~/.lemonade/apps/$Software/Assets/Info/startupvmclass.txt)
 
 
 
@@ -170,7 +205,7 @@ rm -rf ~/.lemonade/apps/$Softwareloca
 rm -rf ~/.lemonade/ISL/$Softwareloca
 
 echo $Softwareloca" Uninstalled"
-
+exit 0
   fi
 
 
@@ -183,3 +218,6 @@ echo "Installed lem packages ID :"
 ls ~/.lemonade/ISL/
 
   fi
+  
+echo "Unknown command, please use 'lem -h' or 'lem help' for help"
+exit 0
