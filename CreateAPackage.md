@@ -32,4 +32,8 @@
               |___ Launcher (contain launch informations for your app)
 
         
-        
+## Package the application
+
+Compress your folder in tar.xz and rename the tar.xz in lem
+
+Enjoy your new app !
