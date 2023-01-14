@@ -23,3 +23,4 @@ Building a lem package is quite simple, you can find these information on the [d
 ## Install :
 
 [Fedora COPR](https://copr.fedorainfracloud.org/coprs/mimillie/LemonPack/)
+[Fedora RPM](https://github.com/LemonadeSoftware/LemonPack/releases/)
