@@ -19,3 +19,7 @@ LemonPack provides the lem command that you can use with all the command below :
 ## How to build a lem package ?
 
 Building a lem package is quite simple, you can find these information on the [documentation about it](https://github.com/LemonadeSoftware/LemonPack/blob/main/CreateAPackage.md)
+
+## Install :
+
+[Fedora COPR](https://copr.fedorainfracloud.org/coprs/mimillie/LemonPack/)
